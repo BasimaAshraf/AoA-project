@@ -1,98 +1,158 @@
-<html>
-<head></head>
-<body>
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset=utf-8 />
-<title>JS Bin</title>
-<style>
-body {padding-top:50px} 
-</style> 
+    <title>JS Bin</title>
+    <style>
+        body {
+            padding-top: 50px;
+            background-image: url('shopp.jpeg');
+            background-position: center;
+            background-size: cover;
+
+        }
+    .box{
+
+          text-align: center;
+            background-color: #b4b4b4;
+            margin-left: 40%;
+            margin-right: 40%;
+            height:400px;
+            
+           }
+           .box .inputbox
+           {
+              position: relative;
+           }
+          .box .inputbox input
+           {
+            width:100px;
+            font-size: 16px; 
+            color:;
+            padding:10px;
+            
+            outline:none;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #fff;
+           }
+           .box .inputbox label
+           {
+            top:0px;
+            bottom:0px;
+            font-size: 16px; 
+            color:;
+            padding:10px;
+            pointer-events:none 
+
+
+           }
+
+
+</style>
+           
+
+
+    </style>
 </head>
+
 <body>
-<input type="text" id="text1"></input>
-<input type="button" id="button1" value="Add" onclick="add_element_to_array();"></input>
-<input type="button" id="button2" value="Display" onclick="display_array();"></input>
-<div id="Result"></div> 
+
+    <script>
+        var x = 0;
+        var my_array = new Array(100);                  //  defining length here for now take 100;
+        for (var i = 0; i < my_array.length; i++) {
+            my_array[i] = new Array();
+        }
+
+        function add_element_to_array() {
+            var y = 0;
+            my_array[x][y] = document.getElementById("text1").value;
+            y++;
+            my_array[x][y] = document.getElementById("text2").value;
+            y++;
+            my_array[x][y] = document.getElementById("text3").value;
+            alert("Element: " + my_array[x][y] + " Added at index " + x);
+            x++;
+            document.getElementById("text1").value = "";
+            document.getElementById("text2").value = "";
+            document.getElementById("text3").value = "";
+        }
+
+        function display_array() {
+            var e = "<hr/>";
+
+            for (var y = 0; y < my_array.length; y++) {
+                if (my_array[y] != '')
+                    e += "Element " + y + " = " + my_array[y] + "<br/>";
+            }
+            document.getElementById("Result").innerHTML = e;
+        }
 
 
-<script > 
-var x = 0;
-var array = Array();
+        var partition = function (my_array, low, high) {
+            var k = my_array[high];
+            var i = low - 1;
+            for (j = low; j < high; j++) {
+                if (my_array[j] <= k) {
+                    i++;
+                    //swapping
+                    tmp = my_array[i];
+                    my_array[i] = my_array[j];
+                    my_array[j] = tmp;
+                }
+            }
+            //swapping
+            tmp = my_array[i + 1];
+            my_array[i + 1] = my_array[high];
+            my_array[high] = tmp;
 
-function add_element_to_array()
-{
- array[x] = document.getElementById("text1").value;
- alert("Element: " + array[x] + " Added at index " + x);
- x++;
- document.getElementById("text1").value = "";
-}
+            return i + 1;
+        }
+        var quickSort = function (my_array, low, high) {
+            if (low < high) {
+                index = partition(my_array, low, high);
+                quickSort(my_array, low, index - 1);
+                quickSort(my_array, index + 1, high);
+            }
+        }
 
-function display_array()
-{
-   var e = "<hr/>";   
+    </script>
+     <form class="box">
+        <div class="inputbox">
+        <h1>Prioritizing Shopping list</h1>
+     <label>Priority</label>
+     <br>
+    <input type="text" id="text1" placeholder="Enter priority"></input>
+    <br>
+    <br>
+    <label>Name of items</label><br>
+    <input type="text" id="text2" placeholder="Enter Name"></input>
+    <br>
+    <br>
+    <label>N0.of items</label><br>
     
-   for (var y=0; y<array.length; y++)
-   {
-     e += "Element " + y + " = " + array[y] + "<br/>";
-   }
-   document.getElementById("Result").innerHTML = e;
-}
+    <input type="text" id="text3" placeholder="Enter Number"></input>
+    <br>
+    <br>
+    <br>
 
+</div>
 
+    <input type="button" id="button1" value="Add" onclick="add_element_to_array();"></input>
+  
+    <input type="button" id="button2" value="display"  onclick="display_array();"></input>
+    <br>
 
-	<?php
-	
-	function partition(&$my_array,$low,$high)
-	{
-		$pivot=$my_array[($low+$high)/2];
+    <input type="button" id="button3"  value="Sort" onclick="quickSort(my_array, 0, 99);"></input>
 
-		while ($low <= $high) 
-		{        
-			while ($my_array[$low] < $pivot)             
-				$low++;
-			while ($my_array[$high] > $pivot)
-				$high--;
-			if ($low <= $high) {
-				swap($my_array[$low], $my_array[$high]);
-				$tmp = $my_array[$low];
-				$my_array[$low] = $my_array[$high];
-				$my_array[$high] = $tmp;
-				$low++;
-				$high--;
-			}
-		}
-		return $low;
-	}
+    <input type="button" id="button4"  value="Display Sorted Array" onclick="display_array();"></input>
 
-	function quickSort(&$my_array, $low, $high)
-	{
-		$index = partition($my_array,$low,$high);
-		if ($low < $index - 1)
-			quickSort($my_array, $low, $index - 1);
-		if ($index < $high)
-			quickSort($my_array, $index, $high);
-	}
-	function PrintArr($my_array,$size)
-	{
-		for($i=0; $i<$size; $i++)
-		{
-			echo  $my_array[$i].', ';
-		}
-	}
-	$my_array = array(3, 0, 2, 5, 9, 4, 1);
-	$size=count($my_array);
-	echo 'Original Array : '.implode(',',$my_array);
-	$low=0;
-	$high=$size-1;
-	echo "<br>";
-	quickSort($my_array,$low,$high);
-	PrintArr($my_array,$size);
+</form>
+    <div id="Result">
+     
+    </div>
 
-	?>
-	?>
-	
-	</script>
-   </body>
+</body>
+
 </html>
