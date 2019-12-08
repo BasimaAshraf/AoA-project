@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body onload='document.form1.text1.focus()'>
+
+    <div class="box">
+        <form method="POST" action="" name="form1">
+            <div class="inputbox">
+                <h1>Prioritizing Shopping list</h1>
+                <label>Name of items</label><br>
+                <input type="text" name="text1" id="item" placeholder="Enter item" required><br><br>
+
+                <label>Priority</label><br>
+                <input type="text" name="pri" id="prio" placeholder="Enter priority" required>
+
+                <li><span class="rq">*Enter numbers only.</span></li><br>
+                <label>No of items</label><br>
+
+                <input type="text" name="NO" id="no" placeholder="Enter no" required>
+                <li> <span class="rq">*Enter numbers only.</span></li>\<br>
+            </div>
+            <input type="button" id="button3" value="Add" onclick="addInArray();"></input><br>
+        </form>
+
+        <form method="POST" action="SortedArray.html">
+            <input type="submit" name="show" value="Show Sorted List "></input>
+        </form>
+    </div>
+
+    <script>
+        class node {
+            constructor(i, p, n) {
+                this.item = i;
+                this.priority = p;
+                this.amount = n;
+            }
+        }
+        var Arr = [];
+        var j = 0;
+
+        function addInArray() {
+            var i = document.getElementById("item").value;
+            var p = document.getElementById("prio").value;
+            var n = document.getElementById("no").value;
+            var numbers = /^[0-9]+$/;
+
+            if (i && p && n && document.getElementById("prio").value.match(numbers) && document.getElementById("no").value.match(numbers)) {
+                alert(" your values are added");
+            } else {
+                if (!(i && p && n)) {
+                    alert("Fill all the text boxes");
+                } else {
+                    alert("Please Enter the Numbers");
+                }
+            }
+            x = new node(i, p, n);
+            Arr.push(x);
+            j++
+            document.getElementById("item").value = "";
+            document.getElementById("prio").value = "";
+            document.getElementById("no").value = "";
+            window.localStorage.setItem("Arr", JSON.stringify(Arr)); // Saving
+            document.form1.text1.focus();
+        }
+    </script>
+
+</body>
+
+</html>
